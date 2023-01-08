@@ -5,16 +5,19 @@ import {Auth, ThemeSupa} from '@supabase/auth-ui-react';
 import {useNavigate} from 'react-router-dom';
 
 
+//initialize supabase client, takes two arguments: url and key environment variables (both from .env file)
+
 const supabase = createClient(
     process.env.REACT_APP_SUPABASE_URL,
     process.env.REACT_APP_SUPABASE_API_KEY
-); //initialize supabase client, takes two arguments: url and key environment variables (both from .env file)
+); 
 
 
 
 function Login() {
 
-    const navigate = useNavigate(); //useNavigate is a hook that returns a function that can be used to navigate to a new route
+    const navigate = useNavigate(); 
+    //useNavigate is a hook that returns a function that can be used to navigate to a new route
     // onAuthStateChange triggers an event whenever the user's authentication state changes
     supabase.auth.onAuthStateChange(async (event) =>{
         if (event !== "SIGNED_OUT") {
