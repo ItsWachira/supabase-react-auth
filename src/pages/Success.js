@@ -13,38 +13,48 @@ const supabase = createClient(
 
 
 function Success() {
-    const [user, setUser] = useState({}); //initialize user state
+    const [user, setUser] = useState([]); //initialize user state
     const navigate = useNavigate(); //useNavigate is a hook that returns a function that can be used to navigate to a new route
 
     useEffect (() => {
         // onAuthStateChange triggers an event whenever the user's authentication state changes
+        
         async function getUserData(){
            await supabase.auth.getUser().then((value) => {
             // if user data null then dont throw error undefines.user
                 
                if(value.data?.user) {
+                console.log(value.data.user.user_metadata);
                 setUser(value.data.user);
+                // return value.data.user.user_metadata.full_name;
+               
+    
 
                } 
             })
         }
-        getUserData();
+       getUserData();
+     
+    
+      
     },[]);
-    //when the application initially loads, the user state is empty, so we need to use useEffect to get the user data
+
+    
+    const userName = user?.user_metadata?.full_name;
+    const avatar = user?.user_metadata?.picture; 
+    
     async function signOutUser(){
-       const {error} = await supabase.auth.signOut();
-        navigate('/');
-    };
+        const {error} = await supabase.auth.signOut();
+         navigate('/');
+     };
 
   return (
     <div className="App">
       <header className="App-header">
-
-     
-        <h1>Login Successful</h1>
-        <button onClick={()=> signOutUser()}>Sign Out</button>   
-
-       
+      <h1>Login Successful</h1>
+      {/* <h2>{userName}</h2> */}
+       <img src={avatar} /> 
+       <button onClick={()=> signOutUser()}>Sign Out</button>    
       </header>
     </div>
   );
